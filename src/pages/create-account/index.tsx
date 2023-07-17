@@ -3,8 +3,14 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
+import { useRouter } from "next/router";
 
 const CreateAccount = () => {
+  const router = useRouter();
+
+  const handleCreateAccountClick = () => {
+    router.push("/create-account/registration");
+  };
   return (
     <Layout>
       <Head>
@@ -31,7 +37,11 @@ const CreateAccount = () => {
           <div className="mx-4 text-black">또는</div>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-        <Button text="계정 만들기" type="dark" />
+        <Button
+          text="계정 만들기"
+          type="dark"
+          onClick={handleCreateAccountClick}
+        />
         <p className="text-gray-600 text-[12px] leading-[15px]">
           가입하시려면 <span className="text-sky-500">쿠키 사용</span>을 포함해{" "}
           <span className="text-sky-500">이용약관</span>과
