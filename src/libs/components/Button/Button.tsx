@@ -3,10 +3,11 @@ import { ButtonType } from "./Button.type";
 interface ButtonProps {
   text: string;
   type: ButtonType;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   logo?: React.ReactNode;
 }
 
-const Button = ({ text, type, logo }: ButtonProps) => {
+const Button = ({ text, type, logo, onClick }: ButtonProps) => {
   const getButtonStyle = () => {
     if (type === "dark") {
       return "bg-black text-white";
@@ -23,10 +24,13 @@ const Button = ({ text, type, logo }: ButtonProps) => {
       <div
         className={`flex justify-center w-full h-full border border-zinc-300 rounded-[40px] ${getButtonStyle()}`}
       >
-        <div className="flex w-[260px] m-auto justify-center font-bold text-[14px]">
+        <button
+          onClick={onClick}
+          className="flex w-[260px] m-auto justify-center font-bold text-[14px]"
+        >
           {logo && <div className="flex items-center mr-2">{logo}</div>}
           {text}
-        </div>
+        </button>
       </div>
     </div>
   );
