@@ -1,8 +1,10 @@
 import Head from "next/head";
 
 import Layout from "@/libs/components/layout";
+import useUser from "@/libs/client/useUser";
 
 const Home = () => {
+  const { user, isLoading } = useUser();
   return (
     <Layout>
       <Head>
