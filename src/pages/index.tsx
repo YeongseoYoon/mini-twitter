@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import Layout from "@/libs/components/common/layout";
+import Layout from "@/libs/components/layout";
 
 const Home = () => {
   return (
