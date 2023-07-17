@@ -1,6 +1,14 @@
+import Head from "next/head";
+
+import Layout from "@/libs/components/common/layout";
+
 const Home = () => {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-24"></main>
+    <Layout>
+      <Head>
+        <title>트위터 가입 / 트위터</title>
+      </Head>
+    </Layout>
   );
 };
 
