@@ -1,3 +1,4 @@
+import Footer from "./footer";
 import Header from "./header";
 
 export default function Layout({ children }: React.PropsWithChildren) {
@@ -8,6 +9,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
         <main className="flex flex-col items-center justify-between flex-1 h-screen ">
           {children}
         </main>
+        <Footer />
       </div>
     </div>
   );
