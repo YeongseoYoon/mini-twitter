@@ -1,9 +1,11 @@
 import Head from "next/head";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
+import { useRouter } from "next/router";
+import useMutation from "@/libs/client/useMutation";
+import { useEffect } from "react";
 
 interface CreateAccountFormData {
   name: string;
@@ -12,7 +14,15 @@ interface CreateAccountFormData {
   passwordConfirm: string;
 }
 
+interface MutationResult {
+  ok: boolean;
+  error?: string;
+}
+
 const Registration = () => {
+  const [enter, { loading, data, error }] = useMutation<MutationResult>(
+    "/api/users/create-account/registration"
+  );
   const {
     register,
     handleSubmit,
@@ -22,10 +32,7 @@ const Registration = () => {
     mode: "onChange",
   });
   const password = watch("password");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<CreateAccountFormData | undefined>(
-    undefined
-  );
+
   const emailValidate = (value: string) => {
     const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return regex.test(value) || "올바른 이메일 형식이 아닙니다.";
@@ -40,10 +47,23 @@ const Registration = () => {
     );
   };
 
-  const onSubmit = (data: CreateAccountFormData) => {
-    setIsSubmitted(true);
-    setFormData(data);
+  const onValid = (createAccountFormData: CreateAccountFormData) => {
+    if (loading) return;
+    enter(createAccountFormData);
   };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (router.pathname === "/create-account/registration" && data?.ok) {
+      alert("회원가입이 성공적으로 진행되었습니다!");
+      router.push("/log-in");
+    } else if (
+      router.pathname === "/create-account/registration" &&
+      data?.error
+    ) {
+      alert(data?.error);
+    }
+  }, [data, router]);
 
   return (
     <Layout>
@@ -57,7 +77,7 @@ const Registration = () => {
           </h1>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onValid)}>
           <div className="relative mb-3" data-te-input-wrapper-init>
             <input
               {...register("name", {
