@@ -7,7 +7,9 @@ export default function useUser() {
   const router = useRouter();
   useEffect(() => {
     if (data && !data.ok) {
-      router.replace("/log-in");
+      router.push("/log-in");
+    } else if (data && data.ok) {
+      router.push("/");
     }
   }, [data, router]);
   return { user: data?.profile, isLoading: !data && !error };

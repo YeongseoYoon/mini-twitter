@@ -6,39 +6,47 @@ import { useForm } from "react-hook-form";
 
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
+import useMutation from "@/libs/client/useMutation";
+import useUser from "@/libs/client/useUser";
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-const Login = () => {
-  const router = useRouter();
+interface MutationResult {
+  ok: boolean;
+  error?: string;
+}
 
+const Login = () => {
+  useUser();
+  const [login, { loading, data }] =
+    useMutation<MutationResult>("/api/users/log-in");
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<LoginFormData>({
     mode: "onChange",
   });
-  const password = watch("password");
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState<LoginFormData | undefined>(
-    undefined
-  );
 
-  const onSubmit = (data: LoginFormData) => {
-    setIsSubmitted(true);
-    setFormData(data);
+  const onSubmit = (loginFormData: LoginFormData) => {
+    if (loading) return;
+    login(loginFormData);
   };
 
-  const handleCreateAccountClick = () => {
-    router.push("/create-account");
-  };
+  const router = useRouter();
+  useEffect(() => {
+    if (data?.ok) {
+      router.replace("/");
+    } else if (data?.error) {
+      alert(data?.error);
+    }
+  }, [data, router]);
+
   return (
     <Layout>
       <Head>
@@ -103,8 +111,8 @@ const Login = () => {
               </div>
             )}
           </div>
+          <Button text="로그인" type="dark" />
         </form>
-        <Button text="로그인" type="dark" onClick={handleCreateAccountClick} />
         <div className="text-gray-600 mt-[38px] text-[14px] leading-[19px] break-words">
           <span>계정이 없으신가요? </span>
           <span className="cursor-pointer text-sky-500">
