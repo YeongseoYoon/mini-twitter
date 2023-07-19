@@ -52,7 +52,7 @@ const Login = () => {
       <Head>
         <title>트위터 로그인 / 트위터</title>
       </Head>
-      <div className="mt-auto mb-auto ml-auto mr-auto pb-[46px] min-w-[364px] max-w-[364px] px-[30px]">
+      <div className="justify-between mt-auto mb-auto ml-auto mr-auto pb-[46px] min-w-[364px] max-w-[364px] px-[30px]">
         <div className="my-[19px]">
           <h1 className="font-bold leading-[30px] text-[25px] break-all">
             트위터에 로그인하기

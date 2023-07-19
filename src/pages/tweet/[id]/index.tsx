@@ -12,15 +12,15 @@ const TweetDetail = () => {
         <title>홈 / 트위터</title>
       </Head>
       <div className="flex items-center justify-center">
-        <div className="max-w-xl p-4 bg-white dark:bg-gray-800 dark:border-gray-800 rounded-xl">
+        <div className="max-w-xl p-4 bg-whiterounded-xl">
           <div className="flex justify-between">
             <div className="flex items-center">
               <img className="rounded-full h-11 w-11" />
               <div className="ml-4 text-sm leading-tight">
-                <span className="block font-bold text-black dark:text-white ">
+                <span className="block font-bold text-black ">
                   Visualize Value
                 </span>
-                <span className="block font-normal text-gray-500 dark:text-gray-400">
+                <span className="block font-normal text-gray-500">
                   @visualizevalue
                 </span>
               </div>
