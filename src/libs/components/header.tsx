@@ -3,7 +3,7 @@ import { FaTwitter } from "react-icons/fa";
 
 export default function Header() {
   return (
-    <header className="flex justify-center w-full h-[53px] pl-4 pr-4">
+    <header className="fixed top-0 bg-white flex justify-center w-full h-[53px] pl-4 pr-4">
       <div className="flex basis-1/2 min-w-[53px] min-h-[30px] items-center">
         <MdClose size="19px" className="cursor-pointer" />
       </div>

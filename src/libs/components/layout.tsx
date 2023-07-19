@@ -6,7 +6,9 @@ export default function Layout({ children }: React.PropsWithChildren) {
     <div className="flex justify-center overflow-y-auto">
       <div className="flex flex-col max-w-[1100px] justify-center">
         <Header />
-        <main className="flex flex-col items-center flex-1 ">{children}</main>
+        <main className="flex flex-col items-center flex-1 pt-[53px]">
+          {children}
+        </main>
         <Footer />
       </div>
     </div>
