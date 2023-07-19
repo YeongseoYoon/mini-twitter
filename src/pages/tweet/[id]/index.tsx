@@ -2,6 +2,8 @@ import Layout from "@/libs/components/layout";
 import Head from "next/head";
 
 import { BsThreeDots } from "react-icons/bs";
+import { RiChat1Line, RiHeart3Line } from "react-icons/ri";
+import { LuShare } from "react-icons/lu";
 
 const TweetDetail = () => {
   return (
@@ -14,7 +16,7 @@ const TweetDetail = () => {
           <div className="flex justify-between">
             <div className="flex items-center">
               <img className="rounded-full h-11 w-11" />
-              <div className="ml-1.5 text-sm leading-tight">
+              <div className="ml-4 text-sm leading-tight">
                 <span className="block font-bold text-black dark:text-white ">
                   Visualize Value
                 </span>
@@ -32,28 +34,39 @@ const TweetDetail = () => {
             “No one ever made a decision because of a number. They need a
             story.” — Daniel Kahneman
           </p>
-          <img className="mt-2 border border-gray-100 rounded-2xl dark:border-gray-700" />
-          <p className="text-gray-500 py-1 my-0.5 text-[14px] whitespace-nowrap break-words cursor-pointer">
-            10:05 AM · Dec 19, 2020
-            <div className="inline-flex overflow-hidden px-[4px]">
-              <span>·</span>
+
+          <div className="text-gray-500 text-[14px] whitespace-nowrap break-words my-[15px]">
+            <div className="inline-flex overflow-hidden cursor-pointer hover:underline">
+              <span>10:05 AM · Dec 19, 2020</span>
             </div>
-            <div className="inline-flex overflow-hidden">
-              <span className="text-gray-700 font-bold leading-[15px] py-1 my-0.5 text-[14px] whitespace-nowrap break-words">
-                2.1M
-              </span>
+          </div>
+          <div className="flex flex-wrap">
+            <div className="w-full border border-b-0 border-gray-200" />
+            <div className="py-4 mr-5 cursor-pointer hover:underline">
+              <div className="inline-flex overflow-hidden font-bold text-[13px]">
+                33
+              </div>
+              <span className="ml-1 text-[13px]  text-gray-500">Comments</span>
             </div>
-            <div className="inline-flex overflow-hidden px-[4px]">
-              <span>Views</span>
+            <div className="py-4 mr-5 cursor-pointer hover:underline">
+              <div className="inline-flex overflow-hidden font-bold text-[13px]">
+                30
+              </div>
+              <span className="ml-1 text-[13px]  text-gray-500">Likes</span>
             </div>
-          </p>
-          <div className="my-1 border border-b-0 border-gray-200 dark:border-gray-600"></div>
-          <div className="flex mt-3 text-gray-500 dark:text-gray-400">
-            <div className="flex items-center mr-6">
-              <span className="ml-3">615</span>
-            </div>
-            <div className="flex items-center mr-6">
-              <span className="ml-3">93 people are Tweeting about this</span>
+          </div>
+          <div className="flex flex-wrap">
+            <div className="w-full border border-b-0 border-gray-200" />
+            <div className="grid w-full grid-cols-3 text-xl h-14">
+              <div className="flex items-center justify-center py-4 = cursor-pointer">
+                <RiChat1Line />
+              </div>
+              <div className="flex items-center justify-center py-4 cursor-pointer">
+                <RiHeart3Line />
+              </div>
+              <div className="flex items-center justify-center py-4 cursor-pointer">
+                <LuShare />
+              </div>
             </div>
           </div>
         </div>

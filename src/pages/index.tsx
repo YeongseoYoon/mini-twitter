@@ -4,7 +4,7 @@ import Layout from "@/libs/components/layout";
 import useUser from "@/libs/client/useUser";
 
 const Home = () => {
-  const { user, isLoading } = useUser();
+  useUser();
   return (
     <Layout>
       <Head>

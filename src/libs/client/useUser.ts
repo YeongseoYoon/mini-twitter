@@ -5,12 +5,17 @@ import useSWR from "swr";
 export default function useUser() {
   const { data, error } = useSWR("/api/users/me");
   const router = useRouter();
+  let hasCookie;
   useEffect(() => {
-    if (data && !data.ok) {
-      router.push("/log-in");
-    } else if (data && data.ok) {
-      router.push("/");
+    hasCookie = document.cookie.includes("tweetsession");
+    if (!hasCookie) {
+      router.replace("/log-in");
     }
-  }, [data, router]);
+    if (data && !data.ok) {
+      router.replace("/log-in");
+    } else if (data && data.ok) {
+      router.replace("/");
+    }
+  }, [data, router, hasCookie]);
   return { user: data?.profile, isLoading: !data && !error };
 }
