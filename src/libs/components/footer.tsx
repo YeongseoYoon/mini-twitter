@@ -3,7 +3,7 @@ import { MdOutlineLocalPostOffice } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 export default function footer() {
   return (
-    <footer className="border-t border-[#eff3f4]">
+    <footer className="border-t bg-white sticky bottom-0 border-[#eff3f4]">
       <div className="grid grid-cols-4 h-14">
         <div className="flex items-center justify-center">
           <AiOutlineHome size="24px" className="cursor-pointer" />
