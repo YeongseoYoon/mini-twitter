@@ -3,10 +3,12 @@ import Header from "./header";
 
 export default function Layout({ children }: React.PropsWithChildren) {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col max-w-[1100px] justify-center">
+    <div className="flex justify-center min-w-[576px] max-w-5xl w-full">
+      <div className="flex flex-col justify-center">
         <Header />
-        <main className="flex flex-col items-center flex-1">{children}</main>
+        <main className="flex flex-col min-w-[576px] items-center flex-1">
+          {children}
+        </main>
         <Footer />
       </div>
     </div>
