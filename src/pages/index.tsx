@@ -5,7 +5,6 @@ import { LuShare } from "react-icons/lu";
 
 import Layout from "@/libs/components/layout";
 import useUser from "@/libs/client/useUser";
-import FloatingButton from "@/libs/components/FloatingButton/FloatingButton";
 
 const Home = () => {
   useUser();
@@ -280,7 +279,6 @@ const Home = () => {
         </div>
         <div className="w-full border border-b-0 border-gray-200" />
       </div>
-      <FloatingButton />
     </Layout>
   );
 };
