@@ -1,26 +1,23 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
-import { useRouter } from "next/router";
 import useMutation from "@/libs/client/useMutation";
-import { useEffect } from "react";
 
-interface CreateAccountFormData {
+import MutationResult from "@/types/type";
+
+interface RegistrationFormData {
   name: string;
   email: string;
   password: string;
   passwordConfirm: string;
 }
 
-interface MutationResult {
-  ok: boolean;
-  error?: string;
-}
-
 const Registration = () => {
-  const [enter, { loading, data, error }] = useMutation<MutationResult>(
+  const [regist, { loading, data, error }] = useMutation<MutationResult>(
     "/api/users/create-account/registration"
   );
   const {
@@ -28,7 +25,7 @@ const Registration = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<CreateAccountFormData>({
+  } = useForm<RegistrationFormData>({
     mode: "onChange",
   });
   const password = watch("password");
@@ -47,9 +44,9 @@ const Registration = () => {
     );
   };
 
-  const onValid = (createAccountFormData: CreateAccountFormData) => {
+  const onValid = (registrationFormData: RegistrationFormData) => {
     if (loading) return;
-    enter(createAccountFormData);
+    regist(registrationFormData);
   };
 
   const router = useRouter();
