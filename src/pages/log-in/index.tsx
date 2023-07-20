@@ -1,24 +1,20 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
-import { useEffect } from "react";
-import Link from "next/link";
 import useMutation from "@/libs/client/useMutation";
 import useUser from "@/libs/client/useUser";
+import MutationResult from "@/types/type";
 
 interface LoginFormData {
   email: string;
   password: string;
-}
-
-interface MutationResult {
-  ok: boolean;
-  error?: string;
 }
 
 const Login = () => {
@@ -33,7 +29,7 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (loginFormData: LoginFormData) => {
+  const onValid = (loginFormData: LoginFormData) => {
     if (loading) return;
     login(loginFormData);
   };
@@ -74,7 +70,7 @@ const Login = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onValid)}>
           <div className="relative mb-3">
             <input
               {...register("email", {
