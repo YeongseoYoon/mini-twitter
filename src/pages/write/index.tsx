@@ -4,6 +4,8 @@ import useMutation from "@/libs/client/useMutation";
 import useUser from "@/libs/client/useUser";
 import Layout from "@/libs/components/layout";
 import MutationResult from "@/types/type";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface TweetFormData {
   content: string;
@@ -25,6 +27,15 @@ const Write = () => {
     write(tweetFormData);
   };
 
+  const router = useRouter();
+  useEffect(() => {
+    if (data?.ok) {
+      router.replace("/");
+    } else if (data?.error) {
+      alert(data?.error);
+    }
+  }, [data, router]);
+
   return (
     <Layout>
       <Head>
@@ -45,10 +56,18 @@ const Write = () => {
                 <div className="px-4 bg-white">
                   <div className="w-full">
                     <textarea
+                      {...register("content", {
+                        required: "내용은 한 글자 이상 입력되어야 합니다.",
+                      })}
                       className="block w-full p-3 outline-none resize-none"
                       placeholder="무슨일이 일어나고 있나요?"
                       rows={4}
                     />
+                    {errors?.content && (
+                      <div className="mb-3 ml-2 text-red-500 text-normal ">
+                        {errors.content.message}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
