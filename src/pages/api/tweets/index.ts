@@ -7,28 +7,25 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const {
-    body: { content },
-    session: { user },
-  } = req;
-  const tweet = await client.tweet.create({
-    data: {
-      content,
-      user: {
-        connect: {
-          id: user?.id,
+  const tweets = await client.tweet.findMany({
+    include: {
+      _count: {
+        select: {
+          favorites: true,
         },
       },
+      user: true,
     },
   });
   res.json({
     ok: true,
-    tweet,
+    tweets,
   });
 }
+
 export default withApiSession(
   withHandler({
-    methods: ["POST"],
+    methods: ["GET"],
     handler,
   })
 );
