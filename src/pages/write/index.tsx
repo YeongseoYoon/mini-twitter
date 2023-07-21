@@ -12,8 +12,9 @@ interface TweetFormData {
 }
 
 const Write = () => {
-  useUser();
-  const [write, { loading, data }] = useMutation<MutationResult>("/api/tweets");
+  const { user } = useUser();
+  const [write, { loading, data }] =
+    useMutation<MutationResult>("/api/tweets/write");
   const {
     register,
     handleSubmit,
@@ -48,7 +49,10 @@ const Write = () => {
               <div className="flex-shrink-0 basis-11">
                 <div className="flex justify-between">
                   <div className="flex items-center">
-                    <img className="rounded-full h-11 w-11" />
+                    <img
+                      className="rounded-full h-11 w-11"
+                      src={user?.avatar}
+                    />
                   </div>
                 </div>
               </div>
