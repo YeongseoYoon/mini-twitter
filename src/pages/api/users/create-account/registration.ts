@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
+import { getRandomHexColor } from "@/libs/utils/getRandomHexColor";
 
 async function handler(
   req: NextApiRequest,
@@ -35,6 +36,11 @@ async function handler(
         email,
         password,
         name,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+          name
+        )}&background=${
+          getRandomHexColor() + getRandomHexColor()
+        }&color=${getRandomHexColor()}`,
       },
     });
 
