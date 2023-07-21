@@ -9,7 +9,7 @@ export default function useUser() {
   useEffect(() => {
     if (data && !data.ok) {
       router.replace("/log-in");
-    } else if (data && data.ok && router.pathname === "log-in") {
+    } else if (data && data.ok && router.pathname === "/log-in") {
       router.replace("/");
     }
   }, [data]);
