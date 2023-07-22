@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const CreateAccount = () => {
   const router = useRouter();
@@ -23,12 +24,12 @@ const CreateAccount = () => {
           </h1>
         </div>
         <Button
-          text="Google 로그인"
+          text="Google로 가입하기"
           type="light"
           logo={<FcGoogle size="17px" />}
         />
         <Button
-          text="Github 로그인"
+          text="Github로 가입하기"
           type="light"
           logo={<FaGithub size="17px" />}
         />
@@ -50,7 +51,9 @@ const CreateAccount = () => {
         </p>
         <div className="text-gray-600 mt-[38px] text-[14px] leading-[19px] break-words">
           <span>이미 계정이 있으신가요? </span>
-          <span className="cursor-pointer text-sky-500">로그인</span>
+          <span className="cursor-pointer text-sky-500">
+            <Link href="/log-in">로그인</Link>
+          </span>
         </div>
       </div>
     </Layout>

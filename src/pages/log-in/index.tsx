@@ -110,7 +110,7 @@ const Login = () => {
         <div className="text-gray-600 mt-[38px] text-[14px] leading-[19px] break-words">
           <span>계정이 없으신가요? </span>
           <span className="cursor-pointer text-sky-500">
-            <Link href="/create-account/registration">가입하기</Link>
+            <Link href="/create-account">가입하기</Link>
           </span>
         </div>
       </div>
