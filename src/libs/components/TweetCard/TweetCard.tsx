@@ -1,18 +1,44 @@
-import { User } from "@prisma/client";
-
+import { Tweet, User } from "@prisma/client";
+import useSWR from "swr";
 import { BsThreeDots } from "react-icons/bs";
-import { RiChat1Line, RiHeart3Line } from "react-icons/ri";
+import { RiChat1Line, RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
+import useMutation from "@/libs/client/useMutation";
+import { makeClassName } from "@/libs/utils/makeClassName";
+import Link from "next/link";
+import { useState } from "react";
 
 interface TweetCardProps {
+  id: string;
   content: string;
   user: User;
-  favorites: number;
+  favoriteCount: number;
 }
 
-const TweetCard = ({ content, favorites, user }: TweetCardProps) => {
+interface TweetWithUser extends Tweet {
+  user: User;
+}
+interface TweetCardDetailResponse {
+  ok: boolean;
+  tweet: TweetWithUser;
+  relatedTweets: Tweet[];
+  isLiked: boolean;
+}
+
+const TweetCard = ({ content, favoriteCount, user, id }: TweetCardProps) => {
+  const [favorite, setFavorite] = useState(favoriteCount);
+  const { data, mutate } = useSWR<TweetCardDetailResponse>(
+    id ? `/api/tweets/${id}` : null
+  );
+  const [toggleFavoriteButton] = useMutation(`/api/tweets/${id}/fav`);
+  const onFavoriteButtonClick = () => {
+    if (!data) return;
+    setFavorite(favorite + (favorite ? -1 : 1));
+    mutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
+    toggleFavoriteButton({});
+  };
   return (
-    <div>
+    <div className="flex flex-col justify-center w-full">
       <div className="max-w-xl px-4 pt-4 bg-white rounded-xl">
         <div className="w-full">
           <div className="flex flex-row">
@@ -38,26 +64,60 @@ const TweetCard = ({ content, favorites, user }: TweetCardProps) => {
                     className="inline-block w-[17px] h-auto text-gray-400 cursor-pointer"
                   />
                 </div>
-                <p className="block my-3 leading-snug text-gray-600 text-[14px] break-words">
-                  {content}
-                </p>
+                <Link href={`/tweet/${id}`}>
+                  <p className="block my-3 leading-snug text-gray-600 text-[14px] break-words">
+                    {content}
+                  </p>
+                </Link>
               </div>
               <div className="flex">
                 <div className="grid w-full grid-cols-3 mb-2 text-xl text-gray-500">
-                  <div className="mr-5 cursor-pointer hover:underline">
-                    <RiChat1Line className="inline-flex" size="17" />
+                  <div className="flex flex-row mr-5 cursor-pointer">
+                    <button
+                      className={
+                        "p-3 flex flex-row rounded-md items-center hover:bg-gray-100 justify-center text-gray-400  hover:text-gray-500"
+                      }
+                    >
+                      <RiChat1Line className="inline-flex" size="17" />
+                    </button>
+
                     <div className="inline-flex overflow-hidden text-[13px]">
                       {}
                     </div>
                   </div>
-                  <div className="mr-5 cursor-pointer hover:underline">
-                    <RiHeart3Line className="inline-flex" size="17" />
-                    <div className="inline-flex overflow-hidden text-[13px]">
-                      {favorites}
+                  <div className="flex flex-row mr-5 cursor-pointer">
+                    <button
+                      onClick={onFavoriteButtonClick}
+                      className={makeClassName(
+                        "p-3  flex flex-row rounded-md items-center hover:bg-gray-100 justify-center ",
+                        data?.isLiked
+                          ? "text-red-500  hover:text-red-600"
+                          : "text-gray-400  hover:text-gray-500"
+                      )}
+                    >
+                      {data?.isLiked ? (
+                        <RiHeart3Fill className="inline-flex" size="17" />
+                      ) : (
+                        <RiHeart3Line className="inline-flex" size="17" />
+                      )}
+                    </button>
+
+                    <div className="inline-flex items-center overflow-hidden text-[13px]">
+                      {favorite}
                     </div>
                   </div>
-                  <div className="mr-5 cursor-pointer hover:underline">
-                    <LuShare className="inline-flex" size="17" />
+                  <div className="flex flex-row mr-5 cursor-pointer">
+                    <button
+                      className={
+                        "p-3 flex flex-row rounded-md items-center hover:bg-gray-100 justify-center text-gray-400  hover:text-gray-500"
+                      }
+                    >
+                      <LuShare className="inline-flex" size="17" />
+                    </button>
+
+                    <div className="inline-flex overflow-hidden text-[13px]">
+                      {}
+                    </div>
                   </div>
                 </div>
               </div>

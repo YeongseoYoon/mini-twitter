@@ -11,36 +11,40 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
-  const tweet = await client.tweet.findUnique({
+  const alreadyExists = await client.favorite.findFirst({
     where: {
-      id: id + "",
-    },
-    include: {
-      user: true,
-      _count: {
-        select: {
-          favorites: true,
-        },
-      },
+      tweetId: id + "",
+      userId: user?.id + "",
     },
   });
-  const isLiked = Boolean(
-    await client.favorite.findFirst({
+  if (alreadyExists) {
+    await client.favorite.delete({
       where: {
-        tweetId: tweet?.id,
-        userId: user?.id + "",
+        id: alreadyExists.id,
       },
-      select: {
-        id: true,
+    });
+  } else {
+    await client.favorite.create({
+      data: {
+        user: {
+          connect: {
+            id: user?.id + "",
+          },
+        },
+        tweet: {
+          connect: {
+            id: id + "",
+          },
+        },
       },
-    })
-  );
-  res.json({ ok: true, tweet, isLiked });
+    });
+  }
+  res.json({ ok: true });
 }
 
 export default withApiSession(
   withHandler({
-    methods: ["GET"],
+    methods: ["POST"],
     handler,
   })
 );
