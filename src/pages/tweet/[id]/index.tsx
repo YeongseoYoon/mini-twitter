@@ -6,7 +6,6 @@ import { RiChat1Line, RiHeart3Line } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
 import { Tweet, User } from "@prisma/client";
 import Layout from "@/libs/components/layout";
-import useUser from "@/libs/client/useUser";
 import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
 
 interface TweetDetail extends Tweet {
@@ -22,7 +21,6 @@ interface TweetDetailResponse {
 }
 
 const TweetDetail = () => {
-  useUser();
   const { data, mutate } = useSWR<TweetDetailResponse>(
     router.query.id ? `/api/tweets/${router.query.id}` : null
   );
@@ -41,10 +39,10 @@ const TweetDetail = () => {
               />
               <div className="ml-4 text-sm leading-tight">
                 <span className="block font-bold text-black ">
-                  {data?.tweet.user.name}
+                  {data?.tweet?.user.name}
                 </span>
                 <span className="block font-normal text-gray-500">
-                  {"@" + data?.tweet.user?.email?.split("@")[0]}
+                  {"@" + data?.tweet?.user?.email?.split("@")[0]}
                 </span>
               </div>
             </div>
@@ -54,7 +52,7 @@ const TweetDetail = () => {
             />
           </div>
           <p className="block mt-3 leading-snug text-black text-[16px] break-words">
-            {data?.tweet.content}
+            {data?.tweet?.content}
           </p>
 
           <div className="text-gray-500 text-[14px] whitespace-nowrap break-words my-[15px]">
@@ -72,7 +70,7 @@ const TweetDetail = () => {
             </div>
             <div className="py-4 mr-5 cursor-pointer hover:underline">
               <div className="inline-flex overflow-hidden font-bold text-[13px]">
-                {data?.tweet._count.favorites}
+                {data?.tweet?._count.favorites}
               </div>
               <span className="ml-1 text-[13px]  text-gray-500">Likes</span>
             </div>

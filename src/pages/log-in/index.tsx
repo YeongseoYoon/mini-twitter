@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
 import useMutation from "@/libs/client/useMutation";
-import useUser from "@/libs/client/useUser";
 import MutationResult from "@/types/type";
 
 interface LoginFormData {
@@ -18,7 +17,6 @@ interface LoginFormData {
 }
 
 const Login = () => {
-  useUser();
   const [login, { loading, data }] =
     useMutation<MutationResult>("/api/users/log-in");
   const {
