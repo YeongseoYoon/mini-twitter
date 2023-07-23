@@ -36,7 +36,7 @@ async function handler(
         email,
         password,
         name,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        avatar: `https://ui-avatars.com/api/?bold=true&name=${encodeURIComponent(
           name
         )}&background=${
           getRandomHexColor() + getRandomHexColor()
