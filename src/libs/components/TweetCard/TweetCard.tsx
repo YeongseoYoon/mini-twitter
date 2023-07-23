@@ -1,12 +1,11 @@
-import { Tweet, User } from "@prisma/client";
-import useSWR from "swr";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { User } from "@prisma/client";
+import useSWRMutation from "swr/mutation";
 import { BsThreeDots } from "react-icons/bs";
 import { RiChat1Line, RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
-import useMutation from "@/libs/client/useMutation";
 import { makeClassName } from "@/libs/utils/makeClassName";
-import Link from "next/link";
-import { useState } from "react";
 
 interface TweetCardProps {
   id: string;
@@ -14,46 +13,37 @@ interface TweetCardProps {
   user: User;
   favoriteCount: number;
   isLiked: boolean;
-  onFavoriteButtonClick: (tweetId: string) => void;
-}
-
-interface TweetWithUser extends Tweet {
-  user: User;
-}
-interface TweetCardDetailResponse {
-  ok: boolean;
-  tweet: TweetWithUser;
-  isLiked: boolean;
 }
 
 const TweetCard = ({
   content,
-  favoriteCount,
+  favoriteCount: initialFavoriteCount,
   user,
   id,
   isLiked: initialIsLiked,
-  onFavoriteButtonClick,
 }: TweetCardProps) => {
-  const [favorite, setFavorite] = useState(favoriteCount);
-  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [favoriteCount, setFavoriteCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
-  const onButtonClick = (id: string) => {
-    onFavoriteButtonClick(id);
-    setIsLiked((prev) => !prev);
-    setFavorite(favorite + (favorite ? -1 : 1));
-  };
-  /*const { data, mutate } = useSWR<TweetCardDetailResponse>(
-    id ? `/api/tweets/${id}` : null
+  useEffect(() => {
+    setFavoriteCount(initialFavoriteCount);
+    setIsLiked(initialIsLiked);
+  }, [initialFavoriteCount, initialIsLiked]);
+
+  const { trigger } = useSWRMutation(
+    `/api/tweets/${id}/fav`,
+    () =>
+      fetch(`/api/tweets/${id}/fav`, {
+        method: "POST",
+      }),
+    {
+      onSuccess: () => {
+        setIsLiked(!isLiked);
+        setFavoriteCount(isLiked ? favoriteCount - 1 : favoriteCount + 1);
+      },
+    }
   );
-  const [toggleFavoriteButton] = useMutation(`/api/tweets/${id}/fav`);
-  */
-  /*
- const onFavoriteButtonClick = () => {
-    if (!favoriteCount) return;
-    setFavorite(favorite + (favorite ? -1 : 1));
-    mutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
-    toggleFavoriteButton({});
-  };*/
+
   return (
     <div className="flex flex-col justify-center w-full">
       <div className="max-w-xl px-4 pt-4 bg-white rounded-xl">
@@ -104,9 +94,7 @@ const TweetCard = ({
                   </div>
                   <div className="flex flex-row mr-5 cursor-pointer">
                     <button
-                      onClick={() => {
-                        onButtonClick(id);
-                      }}
+                      onClick={() => trigger()}
                       className={makeClassName(
                         "p-3  flex flex-row rounded-md items-center hover:bg-gray-100 justify-center ",
                         isLiked
@@ -122,7 +110,7 @@ const TweetCard = ({
                     </button>
 
                     <div className="inline-flex items-center overflow-hidden text-[13px]">
-                      {favorite}
+                      {favoriteCount}
                     </div>
                   </div>
                   <div className="flex flex-row mr-5 cursor-pointer">
