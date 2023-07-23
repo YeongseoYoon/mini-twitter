@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+import router from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -49,7 +49,6 @@ const Registration = () => {
     regist(registrationFormData);
   };
 
-  const router = useRouter();
   useEffect(() => {
     if (router.pathname === "/create-account/registration" && data?.ok) {
       alert("회원가입이 성공적으로 진행되었습니다!");
