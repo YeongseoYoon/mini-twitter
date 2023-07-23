@@ -10,7 +10,7 @@ declare module "iron-session" {
 
 const cookieOptions = {
   cookieName: "tweetsession",
-  password: process.env.COOKIE_PASSWORD!,
+  password: "84646565ukjkh9999wrersdgdf5435345345345lgjflkgjdgd",
 };
 
 export function withApiSession(fn: any) {
