@@ -13,6 +13,8 @@ interface TweetCardProps {
   content: string;
   user: User;
   favoriteCount: number;
+  isLiked: boolean;
+  onFavoriteButtonClick: (tweetId: string) => void;
 }
 
 interface TweetWithUser extends Tweet {
@@ -24,18 +26,34 @@ interface TweetCardDetailResponse {
   isLiked: boolean;
 }
 
-const TweetCard = ({ content, favoriteCount, user, id }: TweetCardProps) => {
+const TweetCard = ({
+  content,
+  favoriteCount,
+  user,
+  id,
+  isLiked: initialIsLiked,
+  onFavoriteButtonClick,
+}: TweetCardProps) => {
   const [favorite, setFavorite] = useState(favoriteCount);
-  const { data, mutate } = useSWR<TweetCardDetailResponse>(
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+
+  const onButtonClick = (id: string) => {
+    onFavoriteButtonClick(id);
+    setIsLiked((prev) => !prev);
+    setFavorite(favorite + (favorite ? -1 : 1));
+  };
+  /*const { data, mutate } = useSWR<TweetCardDetailResponse>(
     id ? `/api/tweets/${id}` : null
   );
   const [toggleFavoriteButton] = useMutation(`/api/tweets/${id}/fav`);
-  const onFavoriteButtonClick = () => {
-    if (!data) return;
+  */
+  /*
+ const onFavoriteButtonClick = () => {
+    if (!favoriteCount) return;
     setFavorite(favorite + (favorite ? -1 : 1));
     mutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
     toggleFavoriteButton({});
-  };
+  };*/
   return (
     <div className="flex flex-col justify-center w-full">
       <div className="max-w-xl px-4 pt-4 bg-white rounded-xl">
@@ -86,15 +104,17 @@ const TweetCard = ({ content, favoriteCount, user, id }: TweetCardProps) => {
                   </div>
                   <div className="flex flex-row mr-5 cursor-pointer">
                     <button
-                      onClick={onFavoriteButtonClick}
+                      onClick={() => {
+                        onButtonClick(id);
+                      }}
                       className={makeClassName(
                         "p-3  flex flex-row rounded-md items-center hover:bg-gray-100 justify-center ",
-                        data?.isLiked
+                        isLiked
                           ? "text-red-500  hover:text-red-600"
                           : "text-gray-400  hover:text-gray-500"
                       )}
                     >
-                      {data?.isLiked ? (
+                      {isLiked ? (
                         <RiHeart3Fill className="inline-flex" size="17" />
                       ) : (
                         <RiHeart3Line className="inline-flex" size="17" />
