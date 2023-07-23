@@ -21,7 +21,6 @@ interface TweetWithUser extends Tweet {
 interface TweetCardDetailResponse {
   ok: boolean;
   tweet: TweetWithUser;
-  relatedTweets: Tweet[];
   isLiked: boolean;
 }
 

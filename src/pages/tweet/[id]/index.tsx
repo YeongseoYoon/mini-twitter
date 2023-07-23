@@ -1,12 +1,15 @@
 import Head from "next/head";
 import useSWR from "swr";
 import router from "next/router";
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { RiChat1Line, RiHeart3Line } from "react-icons/ri";
+import { RiChat1Line, RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
 import { Tweet, User } from "@prisma/client";
 import Layout from "@/libs/components/layout";
 import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
+import useMutation from "@/libs/client/useMutation";
+import { makeClassName } from "@/libs/utils/makeClassName";
 
 interface TweetDetail extends Tweet {
   user: User;
@@ -18,16 +21,28 @@ interface TweetDetail extends Tweet {
 interface TweetDetailResponse {
   ok: boolean;
   tweet: TweetDetail;
+  isLiked: boolean;
 }
 
 const TweetDetail = () => {
   const { data, mutate } = useSWR<TweetDetailResponse>(
     router.query.id ? `/api/tweets/${router.query.id}` : null
   );
+  const [favorite, setFavorite] = useState(data?.tweet?._count.favorites || 0);
+  const [toggleFavoriteButton] = useMutation(
+    `/api/tweets/${data?.tweet.id}/fav`
+  );
+  const onFavoriteButtonClick = () => {
+    if (!data) return;
+    setFavorite(favorite + (favorite ? -1 : 1));
+    mutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
+    toggleFavoriteButton({});
+  };
+
   return (
     <Layout>
       <Head>
-        <title>홈 / 트위터</title>
+        <title>{data?.tweet.content} / 트위터</title>
       </Head>
       <div className="flex items-center justify-center w-full">
         <div className="w-full max-w-xl py-4 bg-white rounded-xl">
@@ -70,7 +85,7 @@ const TweetDetail = () => {
             </div>
             <div className="py-4 mr-5 cursor-pointer hover:underline">
               <div className="inline-flex overflow-hidden font-bold text-[13px]">
-                {data?.tweet?._count.favorites}
+                {favorite}
               </div>
               <span className="ml-1 text-[13px]  text-gray-500">Likes</span>
             </div>
@@ -82,7 +97,21 @@ const TweetDetail = () => {
                 <RiChat1Line />
               </div>
               <div className="flex items-center justify-center py-4 cursor-pointer">
-                <RiHeart3Line />
+                <button
+                  onClick={onFavoriteButtonClick}
+                  className={makeClassName(
+                    "p-3  flex flex-row rounded-md items-center hover:bg-gray-100 justify-center ",
+                    data?.isLiked
+                      ? "text-red-500  hover:text-red-600"
+                      : "text-gray-400  hover:text-gray-500"
+                  )}
+                >
+                  {data?.isLiked ? (
+                    <RiHeart3Fill className="inline-flex" size="17" />
+                  ) : (
+                    <RiHeart3Line className="inline-flex" size="17" />
+                  )}
+                </button>
               </div>
               <div className="flex items-center justify-center py-4 cursor-pointer">
                 <LuShare />
