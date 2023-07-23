@@ -3,10 +3,11 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Layout from "@/libs/components/layout";
 import Button from "@/libs/components/Button/Button";
-import router from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 const CreateAccount = () => {
+  const router = useRouter();
   const handleCreateAccountClick = () => {
     router.push("/create-account/registration");
   };

@@ -17,9 +17,27 @@ async function handler(
       user: true,
     },
   });
+
+  const tweetsWithIsLiked = await Promise.all(
+    tweets.map(async (tweet) => {
+      const isLiked = Boolean(
+        await client.favorite.findFirst({
+          where: {
+            tweetId: tweet.id,
+            userId: req.session.user?.id,
+          },
+          select: {
+            id: true,
+          },
+        })
+      );
+      return { ...tweet, isLiked };
+    })
+  );
+
   res.json({
     ok: true,
-    tweets,
+    tweets: tweetsWithIsLiked,
   });
 }
 

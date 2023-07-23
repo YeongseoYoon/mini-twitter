@@ -1,5 +1,5 @@
 import Head from "next/head";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -17,6 +17,7 @@ interface RegistrationFormData {
 }
 
 const Registration = () => {
+  const router = useRouter();
   const [regist, { loading, data, error }] = useMutation<MutationResult>(
     "/api/users/create-account/registration"
   );
