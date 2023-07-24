@@ -35,7 +35,7 @@ export default function footer() {
           </div>
         </Link>
         <Link
-          href={`/profile/${data?.profile.id}`}
+          href={`/profile/${data?.profile?.id}`}
           className="flex items-center justify-center cursor-pointer"
         >
           <div>

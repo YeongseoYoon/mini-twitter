@@ -16,7 +16,8 @@ export function middleware(req: NextRequest) {
     if (
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/write") ||
-      req.nextUrl.pathname.startsWith("/tweet")
+      req.nextUrl.pathname.startsWith("/tweet") ||
+      req.nextUrl.pathname.startsWith("/profile")
     ) {
       return NextResponse.redirect(new URL("/log-in", req.url));
     }
