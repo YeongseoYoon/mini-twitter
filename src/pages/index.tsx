@@ -1,11 +1,12 @@
 import Head from "next/head";
 import useSWR from "swr";
-import { Tweet, User } from "@prisma/client";
+import { Tweet } from "@prisma/client";
 import Layout from "@/libs/components/layout";
 import TweetCard from "@/libs/components/TweetCard/TweetCard";
+import { UserWithoutPassword } from "@/types/type";
 
 interface Tweets extends Tweet {
-  user: User;
+  user: UserWithoutPassword;
   _count: {
     favorites: number;
   };
@@ -24,7 +25,7 @@ const Home = () => {
       <Head>
         <title>홈 / 트위터</title>
       </Head>
-      {data?.tweets.map((tweet) => (
+      {data?.tweets?.map((tweet) => (
         <TweetCard
           key={tweet.id}
           id={tweet.id}

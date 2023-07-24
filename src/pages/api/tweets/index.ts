@@ -14,7 +14,15 @@ async function handler(
           favorites: true,
         },
       },
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true,
+          createdAt: true,
+        },
+      },
     },
   });
 

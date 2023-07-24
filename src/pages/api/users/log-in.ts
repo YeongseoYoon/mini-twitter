@@ -29,7 +29,7 @@ async function handler(
       };
       await req.session.save();
 
-      return res.json({ ok: true, message: "로그인에 성공했습니다.", user });
+      return res.json({ ok: true, message: "로그인에 성공했습니다." });
     }
   } catch (error) {
     return res.status(500).json({ ok: false, error: "로그인에 실패했습니다." });

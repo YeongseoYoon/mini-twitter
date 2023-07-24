@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { User } from "@prisma/client";
+
 import useSWRMutation from "swr/mutation";
+
 import { BsThreeDots } from "react-icons/bs";
 import { RiChat1Line, RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
 import { makeClassName } from "@/libs/utils/makeClassName";
+import { UserWithoutPassword } from "@/types/type";
 
 interface TweetCardProps {
   id: string;
   content: string;
-  user: User;
+  user: UserWithoutPassword;
   favoriteCount: number;
   isLiked: boolean;
 }

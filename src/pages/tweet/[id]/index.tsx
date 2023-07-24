@@ -8,13 +8,14 @@ import useSWRMutation from "swr/mutation";
 import { BsThreeDots } from "react-icons/bs";
 import { RiChat1Line, RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
-import { Tweet, User } from "@prisma/client";
+import { Tweet } from "@prisma/client";
 import Layout from "@/libs/components/layout";
 import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
 import { makeClassName } from "@/libs/utils/makeClassName";
+import { UserWithoutPassword } from "@/types/type";
 
 interface TweetDetail extends Tweet {
-  user: User;
+  user: UserWithoutPassword;
   _count: {
     favorites: number;
   };
@@ -34,7 +35,6 @@ const TweetDetail = ({ id }: TweetDetailProps) => {
   const { data } = useSWR<TweetDetailResponse>(`/api/tweets/${id}`);
   const [favoriteCount, setFavoriteCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-
   useEffect(() => {
     setFavoriteCount(data?.tweet._count.favorites || 0);
     setIsLiked(data?.isLiked || false);
@@ -87,7 +87,9 @@ const TweetDetail = ({ id }: TweetDetailProps) => {
 
           <div className="text-gray-500 text-[14px] whitespace-nowrap break-words my-[15px]">
             <div className="inline-flex overflow-hidden cursor-pointer hover:underline">
-              <span>{makeFormattedDate(data?.tweet?.createdAt || "")}</span>
+              <span>
+                {makeFormattedDate(data?.tweet?.createdAt || "").fullDate}
+              </span>
             </div>
           </div>
           <div className="flex flex-wrap">

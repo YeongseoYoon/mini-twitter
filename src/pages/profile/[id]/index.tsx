@@ -1,15 +1,15 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { BsThreeDots } from "react-icons/bs";
-import { RiChat1Line, RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
-import { LuShare } from "react-icons/lu";
-import { Tweet, User } from "@prisma/client";
-import Layout from "@/libs/components/layout";
 import useSWR from "swr";
+import { RxCalendar } from "react-icons/rx";
+import { RiChat1Line } from "react-icons/ri";
+import Layout from "@/libs/components/layout";
+import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
+import { UserWithoutPassword } from "@/types/type";
 
 interface ProfileResponse {
   ok: Boolean;
-  profile: User;
+  profile: UserWithoutPassword;
 }
 
 const Profile = () => {
@@ -23,59 +23,42 @@ const Profile = () => {
       <Head>
         <title>{data?.profile.name} / 트위터</title>
       </Head>
-      <div className="flex items-center justify-center w-full">
-        <div className="w-full max-w-xl py-4 bg-white rounded-xl">
-          <div className="flex justify-between">
-            <div className="flex items-center">
-              <img
-                className="rounded-full h-11 w-11"
-                src={data?.profile.avatar || ""}
-              />
-              <div className="ml-4 text-sm leading-tight">
-                <span className="block font-bold text-black ">{}</span>
-                <span className="block font-normal text-gray-500">{}</span>
+      <div className="flex flex-col items-center justify-center w-full">
+        <div className="flex flex-col items-center justify-between w-full h-52">
+          <div className="w-full h-[50%] bg-gray-300"></div>
+          <div className="relative w-full h-[50%] px-4 pt-3">
+            <div className="justify-between w-full">
+              <div className="absolute flex justify-center p-1 items-center bg-white w-20 h-20 rounded-full bottom-[64px] left-6">
+                <img
+                  className="w-full h-full rounded-full"
+                  src={data?.profile.avatar || ""}
+                />
+              </div>
+              <div className="flex items-center mt-2 mr-2">
+                <button className="w-auto h-auto px-2 py-2 ml-auto text-xs font-bold border-2 border-gray-300 rounded-full">
+                  Set Up Profile
+                </button>
               </div>
             </div>
-            <BsThreeDots
-              size="11"
-              className="inline-block w-[17px] h-auto text-gray-400 cursor-pointer"
-            />
-          </div>
-          <p className="block mt-3 leading-snug text-black text-[16px] break-words">
-            {}
-          </p>
-
-          <div className="text-gray-500 text-[14px] whitespace-nowrap break-words my-[15px]">
-            <div className="inline-flex overflow-hidden cursor-pointer hover:underline">
-              <span>{}</span>
+            <div className="text-base font-bold">{data?.profile.name}</div>
+            <div className="text-sm font-bold text-gray-500">
+              {"@" + data?.profile?.email?.split("@")[0]}
+            </div>
+            <div className="flex flex-row my-2 text-sm text-gray-500 align-middle item-center">
+              <div className="flex items-center mr-1">
+                <RxCalendar />
+              </div>
+              {"Joined " +
+                makeFormattedDate(data?.profile?.createdAt || "").month +
+                " " +
+                makeFormattedDate(data?.profile?.createdAt || "").year}
             </div>
           </div>
+        </div>
+        <div className="w-full mt-10">
+          <div className="text-gray-500 text-[14px] whitespace-nowrap break-words my-[15px]" />
           <div className="flex flex-wrap">
             <div className="w-full border border-b-0 border-gray-200" />
-            <div className="py-4 mr-5 cursor-pointer hover:underline">
-              <div className="inline-flex overflow-hidden font-bold text-[13px]">
-                {}
-              </div>
-              <span className="ml-1 text-[13px]  text-gray-500">Comments</span>
-            </div>
-            <div className="py-4 mr-5 cursor-pointer hover:underline">
-              <div className="inline-flex overflow-hidden font-bold text-[13px]">
-                {}
-              </div>
-              <span className="ml-1 text-[13px]  text-gray-500">Likes</span>
-            </div>
-          </div>
-          <div className="flex flex-wrap">
-            <div className="w-full border border-b-0 border-gray-200" />
-            <div className="grid w-full grid-cols-3 text-xl h-14">
-              <div className="flex items-center justify-center py-4 = cursor-pointer">
-                <RiChat1Line />
-              </div>
-              <div className="flex items-center justify-center py-4 cursor-pointer"></div>
-              <div className="flex items-center justify-center py-4 cursor-pointer">
-                <LuShare />
-              </div>
-            </div>
           </div>
         </div>
       </div>

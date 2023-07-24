@@ -16,7 +16,15 @@ async function handler(
       id: id + "",
     },
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true,
+          createdAt: true,
+        },
+      },
       _count: {
         select: {
           favorites: true,
