@@ -12,7 +12,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
 
   return (
     <div className="flex justify-center min-w-[576px] max-w-5xl min-h-screen w-full m-auto">
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center border-t-0 border-b-0 border-gray-200 border-x-2">
         <Header />
         <main className="flex flex-col min-w-[576px] flex-grow items-center flex-1">
           {children}
