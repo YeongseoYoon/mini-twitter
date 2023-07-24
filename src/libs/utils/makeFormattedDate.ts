@@ -24,5 +24,13 @@ export const makeFormattedDate = (isoDateString: Date | string) => {
   const day = date.getDate();
   const year = date.getFullYear();
 
-  return `${formattedHours}:${formattedMinutes} ${ampm} · ${month} ${day}, ${year}`;
+  return {
+    hours: formattedHours,
+    minutes: formattedMinutes,
+    ampm: ampm,
+    month: month,
+    day: day,
+    year: year,
+    fullDate: `${formattedHours}:${formattedMinutes} ${ampm} · ${month} ${day}, ${year}`,
+  };
 };
