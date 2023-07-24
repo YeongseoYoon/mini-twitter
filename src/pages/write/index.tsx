@@ -13,6 +13,7 @@ interface TweetFormData {
 
 const Write = () => {
   const { user } = useUser();
+  console.log(user);
   const [write, { loading, data }] =
     useMutation<MutationResult>("/api/tweets/write");
   const {
