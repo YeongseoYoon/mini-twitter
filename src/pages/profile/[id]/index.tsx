@@ -2,14 +2,23 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { RxCalendar } from "react-icons/rx";
-import { RiChat1Line } from "react-icons/ri";
 import Layout from "@/libs/components/layout";
 import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
 import { UserWithoutPassword } from "@/types/type";
+import { Tweet } from "@prisma/client";
+import useSWRMutation from "swr/mutation";
+
+interface Profile extends UserWithoutPassword {
+  tweets: Tweet[];
+  _count: {
+    favorites: number;
+  };
+  isLiked: boolean;
+}
 
 interface ProfileResponse {
-  ok: Boolean;
-  profile: UserWithoutPassword;
+  isSuccess: Boolean;
+  profile: Profile;
 }
 
 const Profile = () => {
@@ -17,11 +26,27 @@ const Profile = () => {
   const { data, mutate } = useSWR<ProfileResponse>(
     router.query.id ? `/api/users/profile/${router.query.id}` : null
   );
+  const { trigger } = useSWRMutation(
+    "/api/log-out",
+    () =>
+      fetch("/api/users/log-out", {
+        method: "POST",
+      }),
+    {
+      onSuccess: () => {
+        alert("로그아웃 되었습니다!");
+        router.push("/log-in");
+      },
+      onError: () => {
+        alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+      },
+    }
+  );
 
   return (
     <Layout>
       <Head>
-        <title>{data?.profile.name} / 트위터</title>
+        <title>{data?.profile?.name} / 트위터</title>
       </Head>
       <div className="flex flex-col items-center justify-center w-full">
         <div className="flex flex-col items-center justify-between w-full h-52">
@@ -31,16 +56,26 @@ const Profile = () => {
               <div className="absolute flex justify-center p-1 items-center bg-white w-20 h-20 rounded-full bottom-[64px] left-6">
                 <img
                   className="w-full h-full rounded-full"
-                  src={data?.profile.avatar || ""}
+                  src={data?.profile?.avatar || ""}
                 />
               </div>
-              <div className="flex items-center mt-2 mr-2">
-                <button className="w-auto h-auto px-2 py-2 ml-auto text-xs font-bold border-2 border-gray-300 rounded-full">
-                  Set Up Profile
-                </button>
+              <div className="flex items-center mt-2">
+                <div className="ml-auto ">
+                  <button className="h-auto px-2 py-2 ml-2 text-xs font-bold border-2 border-gray-300 rounded-full cursor-pointer first-letter:w-auto">
+                    Set Up Profile
+                  </button>
+                  <button
+                    onClick={() => {
+                      trigger();
+                    }}
+                    className="w-auto h-auto px-2 py-2 ml-2 text-xs font-bold border-2 border-gray-300 rounded-full cursor-pointer"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="text-base font-bold">{data?.profile.name}</div>
+            <div className="text-base font-bold">{data?.profile?.name}</div>
             <div className="text-sm font-bold text-gray-500">
               {"@" + data?.profile?.email?.split("@")[0]}
             </div>

@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const CreateAccount = () => {
   const router = useRouter();
-  const handleCreateAccountClick = () => {
+  const onCreateAccountButtonClick = () => {
     router.push("/create-account/registration");
   };
   return (
@@ -40,7 +40,7 @@ const CreateAccount = () => {
         <Button
           text="계정 만들기"
           type="dark"
-          onClick={handleCreateAccountClick}
+          onClick={onCreateAccountButtonClick}
         />
         <p className="text-gray-600 text-[12px] leading-[15px]">
           가입하시려면 <span className="text-sky-500">쿠키 사용</span>을 포함해{" "}

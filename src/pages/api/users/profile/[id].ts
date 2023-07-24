@@ -18,10 +18,19 @@ async function handler(
       avatar: true,
       email: true,
       createdAt: true,
+      tweets: {
+        include: {
+          _count: {
+            select: {
+              favorites: true,
+            },
+          },
+        },
+      },
     },
   });
   res.json({
-    ok: true,
+    isSuccess: true,
     profile,
   });
 }
