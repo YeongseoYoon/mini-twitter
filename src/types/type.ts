@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 
 export default interface MutationResult {
-  ok: boolean;
+  isSuccess: boolean;
   error?: string;
 }
 

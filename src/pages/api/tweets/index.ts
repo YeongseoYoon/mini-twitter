@@ -44,7 +44,7 @@ async function handler(
   );
 
   res.json({
-    ok: true,
+    isSuccess: true,
     tweets: tweetsWithIsLiked,
   });
 }

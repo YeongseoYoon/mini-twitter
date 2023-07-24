@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export interface ResponseType {
-  ok: boolean;
+  isSuccess: boolean;
   [key: string]: any;
 }
 
@@ -25,7 +25,7 @@ export default function withHandler({
       return res.status(405).end();
     }
     if (isPrivate && !req.session.user) {
-      return res.status(401).json({ ok: false, error: "Log In" });
+      return res.status(401).json({ isSuccess: false, error: "Log In" });
     }
     try {
       await handler(req, res);

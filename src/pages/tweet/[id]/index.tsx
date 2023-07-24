@@ -22,7 +22,7 @@ interface TweetDetail extends Tweet {
 }
 
 interface TweetDetailResponse {
-  ok: boolean;
+  isSuccess: boolean;
   tweet: TweetDetail;
   isLiked: boolean;
 }

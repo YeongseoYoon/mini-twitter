@@ -51,7 +51,7 @@ const Registration = () => {
   };
 
   useEffect(() => {
-    if (router.pathname === "/create-account/registration" && data?.ok) {
+    if (router.pathname === "/create-account/registration" && data?.isSuccess) {
       alert("회원가입이 성공적으로 진행되었습니다!");
       router.push("/log-in");
     } else if (

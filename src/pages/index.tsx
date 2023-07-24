@@ -14,7 +14,7 @@ interface Tweets extends Tweet {
 }
 
 interface TweetsResponse {
-  ok: boolean;
+  isSuccess: boolean;
   tweets: Tweets[];
 }
 

@@ -18,7 +18,7 @@ async function handler(
     },
   });
   res.json({
-    ok: true,
+    isSuccess: true,
     profile,
   });
 }

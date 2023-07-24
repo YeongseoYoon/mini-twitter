@@ -8,7 +8,7 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ ok: false });
+  if (!email || !password) return res.status(400).json({ isSuccess: false });
   try {
     const user = await client.user.findUnique({
       where: {
@@ -18,7 +18,7 @@ async function handler(
 
     if (!user || user.password !== password) {
       return res.status(401).json({
-        ok: false,
+        isSuccess: false,
         error: "이메일 또는 비밀번호가 올바르지 않습니다.",
       });
     }
@@ -29,10 +29,12 @@ async function handler(
       };
       await req.session.save();
 
-      return res.json({ ok: true, message: "로그인에 성공했습니다." });
+      return res.json({ isSuccess: true, message: "로그인에 성공했습니다." });
     }
   } catch (error) {
-    return res.status(500).json({ ok: false, error: "로그인에 실패했습니다." });
+    return res
+      .status(500)
+      .json({ isSuccess: false, error: "로그인에 실패했습니다." });
   }
 }
 

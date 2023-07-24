@@ -34,7 +34,7 @@ const Login = () => {
 
   const router = useRouter();
   useEffect(() => {
-    if (data?.ok) {
+    if (data?.isSuccess) {
       router.replace("/");
     } else if (data?.error) {
       alert(data?.error);

@@ -6,7 +6,7 @@ import { FiFeather } from "react-icons/fi";
 import { HiOutlineUser } from "react-icons/hi";
 
 interface UserResponse {
-  ok: Boolean;
+  isSuccess: Boolean;
   profile: User;
 }
 

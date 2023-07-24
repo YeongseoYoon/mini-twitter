@@ -43,7 +43,7 @@ async function handler(
       },
     })
   );
-  res.json({ ok: true, tweet, isLiked });
+  res.json({ isSuccess: true, tweet, isLiked });
 }
 
 export default withApiSession(
