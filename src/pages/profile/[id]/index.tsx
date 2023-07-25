@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import useSWR from "swr";
 import { RxCalendar } from "react-icons/rx";
 import Layout from "@/libs/components/layout";
@@ -21,10 +22,14 @@ interface ProfileResponse {
   profile: Profile;
 }
 
-const Profile = () => {
+interface ProfileProps {
+  id: string;
+}
+
+const Profile = ({ id }: ProfileProps) => {
   const router = useRouter();
   const { data, mutate } = useSWR<ProfileResponse>(
-    router.query.id ? `/api/users/profile/${router.query.id}` : null
+    id ? `/api/users/profile/${id}` : null
   );
   const { trigger } = useSWRMutation(
     "/api/log-out",
@@ -99,6 +104,16 @@ const Profile = () => {
       </div>
     </Layout>
   );
+};
+
+export const getServerSideProps = async ({
+  query: { id },
+}: GetServerSidePropsContext) => {
+  return {
+    props: {
+      id,
+    },
+  };
 };
 
 export default Profile;
