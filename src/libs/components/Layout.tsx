@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import Footer from "./footer";
-import Header from "./header";
+import Footer from "./Footer";
+import Header from "./Header";
 
 export default function Layout({ children }: React.PropsWithChildren) {
   const router = useRouter();

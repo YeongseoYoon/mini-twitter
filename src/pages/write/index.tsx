@@ -2,10 +2,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useMutation from "@/libs/client/useMutation";
-import useUser from "@/libs/client/useUser";
-import Layout from "@/libs/components/layout";
-import MutationResult from "@/types/type";
+
+import { useUser, useMutation } from "@/libs/client";
+import MutationResult from "@/types";
+import { Layout } from "@/libs/components";
 
 interface TweetFormData {
   content: string;

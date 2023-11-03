@@ -1,13 +1,10 @@
+import { useMutation } from "@/libs/client";
+import { Layout, Button } from "@/libs/components";
+import MutationResult from "@/types";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
-import Layout from "@/libs/components/layout";
-import Button from "@/libs/components/Button/Button";
-import useMutation from "@/libs/client/useMutation";
-
-import MutationResult from "@/types/type";
 
 interface RegistrationFormData {
   name: string;

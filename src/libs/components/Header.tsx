@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { MdClose } from "react-icons/md";
 import { FaTwitter } from "react-icons/fa";
-import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();

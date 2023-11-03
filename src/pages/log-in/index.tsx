@@ -5,11 +5,9 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
-
-import Layout from "@/libs/components/layout";
-import Button from "@/libs/components/Button/Button";
-import useMutation from "@/libs/client/useMutation";
-import MutationResult from "@/types/type";
+import { useMutation } from "@/libs/client";
+import { Layout, Button } from "@/libs/components";
+import MutationResult from "@/types";
 
 interface LoginFormData {
   email: string;

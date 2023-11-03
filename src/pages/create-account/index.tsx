@@ -1,10 +1,9 @@
 import Head from "next/head";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import Layout from "@/libs/components/layout";
-import Button from "@/libs/components/Button/Button";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { Layout, Button } from "@/libs/components";
 
 const CreateAccount = () => {
   const router = useRouter();

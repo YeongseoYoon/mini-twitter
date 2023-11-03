@@ -1,13 +1,14 @@
 import Head from "next/head";
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import useSWR from "swr";
-import { RxCalendar } from "react-icons/rx";
-import Layout from "@/libs/components/layout";
-import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
-import { UserWithoutPassword } from "@/types/type";
 import { Tweet } from "@prisma/client";
+import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
+import { RxCalendar } from "react-icons/rx";
+
+import { Layout } from "@/libs/components";
+import { makeFormattedDate } from "@/libs/utils";
+import { UserWithoutPassword } from "@/types";
 
 interface Profile extends UserWithoutPassword {
   tweets: Tweet[];

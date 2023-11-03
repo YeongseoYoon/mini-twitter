@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import withHandler, { ResponseType } from "@/libs/server/withHandler";
-import client from "@/libs/server/client";
-import { getRandomHexColor } from "@/libs/utils/getRandomHexColor";
+import { ResponseType, client, withHandler } from "@/libs/server";
+
+import { getRandomHexColor } from "@/libs/utils";
 
 async function handler(
   req: NextApiRequest,

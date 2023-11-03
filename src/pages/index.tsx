@@ -1,9 +1,8 @@
 import Head from "next/head";
 import useSWR from "swr";
 import { Tweet } from "@prisma/client";
-import Layout from "@/libs/components/layout";
-import TweetCard from "@/libs/components/TweetCard/TweetCard";
-import { UserWithoutPassword } from "@/types/type";
+import { Layout, TweetCard } from "@/libs/components";
+import { UserWithoutPassword } from "@/types";
 
 interface Tweets extends Tweet {
   user: UserWithoutPassword;

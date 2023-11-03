@@ -6,8 +6,9 @@ import useSWRMutation from "swr/mutation";
 import { BsThreeDots } from "react-icons/bs";
 import { RiChat1Line, RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
-import { makeClassName } from "@/libs/utils/makeClassName";
-import { UserWithoutPassword } from "@/types/type";
+
+import { makeClassName } from "@/libs/utils";
+import { UserWithoutPassword } from "@/types";
 
 interface TweetCardProps {
   id: string;

@@ -9,10 +9,10 @@ import { BsThreeDots } from "react-icons/bs";
 import { RiChat1Line, RiHeart3Fill, RiHeart3Line } from "react-icons/ri";
 import { LuShare } from "react-icons/lu";
 import { Tweet } from "@prisma/client";
-import Layout from "@/libs/components/layout";
-import { makeFormattedDate } from "@/libs/utils/makeFormattedDate";
-import { makeClassName } from "@/libs/utils/makeClassName";
-import { UserWithoutPassword } from "@/types/type";
+
+import { Layout } from "@/libs/components";
+import { makeFormattedDate, makeClassName } from "@/libs/utils";
+import { UserWithoutPassword } from "@/types";
 
 interface TweetDetail extends Tweet {
   user: UserWithoutPassword;
