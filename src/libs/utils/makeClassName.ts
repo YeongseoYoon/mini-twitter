@@ -1,3 +1,3 @@
-export function makeClassName(...classnames: string[]) {
+export const makeClassName = (...classnames: string[]) => {
   return classnames.join(" ");
-}
+};
