@@ -9,8 +9,12 @@ declare module "iron-session" {
 }
 
 const cookieOptions = {
-  cookieName: "tweetsession",
-  password: "84646565ukjkh9999wrersdgdf5435345345345lgjflkgjdgd",
+  cookieName: process.env.COOKIE_NAME!,
+  password: process.env.IRON_SESSION_PASSWORD!,
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 3600,
+  },
 };
 
 export function withApiSession(fn: any) {

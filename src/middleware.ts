@@ -1,18 +1,35 @@
-import type { NextRequest } from "next/server";
+import { getIronSession } from "iron-session/edge";
+import {
+  NextFetchEvent,
+  NextRequest,
+  NextResponse,
+  userAgent,
+} from "next/server";
 
-import { NextResponse } from "next/server";
+export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
+  if (userAgent(req).isBot) {
+  }
 
-export function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const session = await getIronSession(req, res, {
+    cookieName: process.env.COOKIE_NAME!,
+    password: process.env.IRON_SESSION_PASSWORD!,
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 3600,
+    },
+  });
+
   if (
     req.nextUrl.pathname.startsWith("/create-account") ||
     req.nextUrl.pathname.startsWith("/log-in")
   ) {
-    if (req.cookies.has("tweetsession")) {
+    if (session.user) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
-  if (!req.cookies.has("tweetsession")) {
+  if (!session.user) {
     if (
       req.nextUrl.pathname === "/" ||
       req.nextUrl.pathname.startsWith("/write") ||
@@ -22,7 +39,8 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/log-in", req.url));
     }
   }
-}
+};
+
 export const config = {
   matcher: ["/((?!api|_next/static|favicon.ico).*)"],
 };
