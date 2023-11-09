@@ -1,9 +1,10 @@
+import { NextPage } from "next";
 import Head from "next/head";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { Tweet } from "@prisma/client";
 import { Layout, TweetCard } from "@/libs/components";
 import { UserWithoutPassword } from "@/types";
-
+import { client } from "@/libs/server";
 interface Tweets extends Tweet {
   user: UserWithoutPassword;
   _count: {
@@ -38,4 +39,48 @@ const Home = () => {
   );
 };
 
-export default Home;
+const Page: NextPage<{ tweets: Tweets[] }> = ({ tweets }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          "/api/tweets": {
+            isSuccess: true,
+            tweets,
+          },
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
+export async function getServerSideProps() {
+  const tweets = await client.tweet.findMany({
+    include: {
+      _count: {
+        select: {
+          favorites: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          email: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+
+  return {
+    props: {
+      tweets: JSON.parse(JSON.stringify(tweets)),
+    },
+  };
+}
+
+export default Page;
