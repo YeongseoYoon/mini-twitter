@@ -10,7 +10,7 @@ interface UserResponse {
   profile: User;
 }
 
-export default function footer() {
+export default function Footer() {
   const { data } = useSWR<UserResponse>("/api/users/me");
   return (
     <footer className="border-t bg-white sticky bottom-0 border-[#eff3f4]">
