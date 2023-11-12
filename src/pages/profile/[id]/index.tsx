@@ -1,14 +1,16 @@
 import Head from "next/head";
-import { GetServerSidePropsContext } from "next";
+import { NextPage, NextPageContext } from "next";
 import { useRouter } from "next/router";
-import { Tweet } from "@prisma/client";
-import useSWR from "swr";
+import { Tweet, User } from "@prisma/client";
+import useSWR, { SWRConfig } from "swr";
 import useSWRMutation from "swr/mutation";
 import { RxCalendar } from "react-icons/rx";
 
 import { Layout } from "@/libs/components";
 import { makeFormattedDate } from "@/libs/utils";
 import { UserWithoutPassword } from "@/types";
+import { client } from "@/libs/server";
+import { withSsrSession } from "@/libs/server/withSession";
 
 interface Profile extends UserWithoutPassword {
   tweets: Tweet[];
@@ -23,14 +25,10 @@ interface ProfileResponse {
   profile: Profile;
 }
 
-interface ProfileProps {
-  id: string;
-}
-
-const Profile = ({ id }: ProfileProps) => {
+const Profile = ({ initialProfile }: { initialProfile: Profile }) => {
   const router = useRouter();
   const { data, mutate } = useSWR<ProfileResponse>(
-    id ? `/api/users/profile/${id}` : null
+    initialProfile.id ? `/api/users/profile/${initialProfile.id}` : null
   );
   const { trigger } = useSWRMutation(
     "/api/log-out",
@@ -106,15 +104,31 @@ const Profile = ({ id }: ProfileProps) => {
     </Layout>
   );
 };
-
-export const getServerSideProps = async ({
-  query: { id },
-}: GetServerSidePropsContext) => {
-  return {
-    props: {
-      id,
-    },
-  };
+const Page: NextPage<{ profile: Profile }> = ({ profile }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          [`/api/users/profile/${profile.id}`]: { ok: true, profile },
+        },
+      }}
+    >
+      <Profile initialProfile={profile} />
+    </SWRConfig>
+  );
 };
 
-export default Profile;
+export const getServerSideProps = withSsrSession(async function ({
+  req,
+}: NextPageContext) {
+  const profile = await client.user.findUnique({
+    where: { id: req?.session.user?.id },
+  });
+  return {
+    props: {
+      profile: JSON.parse(JSON.stringify(profile)),
+    },
+  };
+});
+
+export default Page;
