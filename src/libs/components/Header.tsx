@@ -10,7 +10,7 @@ export default function Header() {
       <div className="bg-white flex justify-center w-full h-[53px]">
         <div className="flex basis-1/2 min-w-[53px] min-h-[30px] items-center">
           {router.pathname === "/" || router.pathname === "/log-in" ? null : (
-            <Link href="/" className="cursor-pointer">
+            <Link href="/" prefetch={false} className="cursor-pointer">
               <MdClose size="19px" />
             </Link>
           )}
